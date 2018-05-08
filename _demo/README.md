@@ -6,8 +6,8 @@ To test CIMI, you'll need:
 
 ## Deploying CIMI with Docker
 
-You'll need to provide CIMI over HTTPS. For this we use the 
-Traefik reverse proxy which can automatically request and renew 
+You'll need to provide CIMI over HTTPS. For this we use the
+Traefik reverse proxy which can automatically request and renew
 Let's Encrypt certificates, given that you have a FQDN.
 
 For local testing however, self signed certificates can be used.
@@ -24,12 +24,12 @@ For local testing however, self signed certificates can be used.
 
 `docker-compose up`
 
-Make sure that you've allocated enough memory to Docker; 4-6 GB of memory 
+Make sure that you've allocated enough memory to Docker; 4-6 GB of memory
 should be sufficient (this is due to the temporary ES test backend).
 
-After waiting some time for everything to start, you should be able to 
+After waiting some time for everything to start, you should be able to
 see the CloudEntryPoint at the address `https://localhost/api/cloud-entry-point`.
-You'll get the usual browser warning about the security of the certificates, 
+You'll get the usual browser warning about the security of the certificates,
 if you used the self-signed certificates for the server.
 
 ## Using CIMI
@@ -53,8 +53,8 @@ curl -XPOST -k https://localhost/api/session -d @regularUser.json -H 'content-ty
 ```
 
  #### API Keys
- 
-API keys are a safer way to have robots (scripts) interacting with CIMI on behalf of a user, since the same user can issue multiple API keys, and every one of them can be revoked without interfering with the original user access. 
+
+API keys are a safer way to have robots (scripts) interacting with CIMI on behalf of a user, since the same user can issue multiple API keys, and every one of them can be revoked without interfering with the original user access.
 
 Basically CIMI distinguishes between _internal_ logins and _api_key_ logins, even though they might be associated with the same user account.
 
@@ -140,7 +140,7 @@ If you've added new resources to CIMI and want to test them:
 
 `mvn clean install`
 
-on the ouput you should see something like 
+on the ouput you should see something like
 
 ```
 [INFO] DOCKER> [mf2c/cimi-server:1.0.0-SNAPSHOT] "cimi-server": Created docker-build.tar in 171 milliseconds
@@ -343,18 +343,20 @@ Same as the other ones above. The JSON resource should look like:
 ```bash
 cat >>serviceInstance.json <<EOF
 {
-    "user": {"href": "user/asasdasd"},
-    "service": {"href": "service/asasdasd"},
-    "agreement": {"href": "sla/asdasdasd"},
+    "user": "test_user",
+    "service": "a3bcf627-99cb-4138-a429-b44c5645e6d2",
+    "agreement": "e6bcf627-99cb-4138-a429-b44c5645e6b5",
     "status": "running",
     "agents": [
         {
-          "agent": {"href": "device/testdevice"}, 
-          "port": 8081, 
-          "container_id": "0938afd12323", 
-          "status": "running", 
-          "num_cpus": 3, 
-          "allow": true
+          "agent": {"href": "device/testdevice"},
+          "ports": [8081],
+          "container_id": "8259ec5ce1c97c0ce0e12e671f532b6fe44c015ee422ec10320df180a0e6da38",
+          "status": "running",
+          "num_cpus": 3,
+          "allow": true,
+          "master_compss": false,
+          "agent_param": "-"
         }
     ]
 }
@@ -493,7 +495,7 @@ cat >>fogArea.json <<EOF
     "logicalCoresMin": 2,
     "powerRemainingMax": "Device has unlimited power source",
     "powerRemainingMin": "88.2"
- } 
+ }
 EOF
 
 ```
